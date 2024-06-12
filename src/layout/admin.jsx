@@ -41,7 +41,6 @@ const items = [
   getItem("Brand", "sub3", <BookOutlined />, [
     getItem("Brand List", "4", null, null, "/admin/brand/view"),
   ]),
-  
 ];
 
 const AdminLayout = ({ children }) => {
@@ -94,34 +93,38 @@ const AdminLayout = ({ children }) => {
   };
   const dropItems = () => {
     return [
-    {
-      label: <a href="/user/profile">{isAuthenticated ? <strong>{infoUser.membername}</strong> : ""}</a>,
-      key: "0",
-    },
-    {
+      {
+        label: (
+          <a href={`/user/profile/${infoUser._id}`}>
+            {isAuthenticated ? <strong>{infoUser.membername}</strong> : ""}
+          </a>
+        ),
+        key: "0",
+      },
+      {
         label: <a href="/home">Cửa hàng</a>,
         key: "1",
-    },
-    {
-      label: (
-        <p
-          className="text-blue-500 font-bold hover:underline cursor-pointer"
-          onClick={handleLogout}
-        >
-          Đăng Xuất
-        </p>
-      ),
-      key: "2",
-    },
-  ]
-};
-const menu = (
-  <Menu>
-    {dropItems().map((item) => (
-      <Menu.Item key={item.key}>{item.label}</Menu.Item>
-    ))}
-  </Menu>
-);
+      },
+      {
+        label: (
+          <p
+            className="text-blue-500 font-bold hover:underline cursor-pointer"
+            onClick={handleLogout}
+          >
+            Đăng Xuất
+          </p>
+        ),
+        key: "2",
+      },
+    ];
+  };
+  const menu = (
+    <Menu>
+      {dropItems().map((item) => (
+        <Menu.Item key={item.key}>{item.label}</Menu.Item>
+      ))}
+    </Menu>
+  );
 
   return (
     <Layout className="min-h-screen">
@@ -154,22 +157,26 @@ const menu = (
       </Sider>
       <Layout className="right-bar overflow-y-auto transition-all duration-[280ms] ease-in">
         <Header className="bg-[#f8f8f8] bg-opacity-80 backdrop-blur-[6px]">
-        <div className="header pr-4 flex justify-end gap-2 items-center fixed z-[1000] h-16 shadow-none ">
-          <Dropdown overlay={menu} placement="bottomRight" trigger={["click"]}>
-            <a
-              className="ant-dropdown-link"
-              onClick={(e) => e.preventDefault()}
+          <div className="header pr-4 flex justify-end gap-2 items-center fixed z-[1000] h-16 shadow-none ">
+            <Dropdown
+              overlay={menu}
+              placement="bottomRight"
+              trigger={["click"]}
             >
-              <Avatar
-                src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"
-                size="large"
-              />
-            </a>
-          </Dropdown>
-        </div>
+              <a
+                className="ant-dropdown-link"
+                onClick={(e) => e.preventDefault()}
+              >
+                <Avatar
+                  src="https://api.dicebear.com/7.x/miniavs/svg?seed=1"
+                  size="large"
+                />
+              </a>
+            </Dropdown>
+          </div>
         </Header>
-        <Content className="mt-[80px] mx-4 ">
-          <div className="rounded-xl overflow-x-auto min-w-[250px] bg-[#fff]">
+        <Content className="mt-[80px] ml-[240px] ">
+          <div className="rounded-sm overflow-x-auto min-w-[250px] bg-[#fff]">
             {children}
           </div>
         </Content>

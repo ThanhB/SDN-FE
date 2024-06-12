@@ -45,7 +45,7 @@ function SearchWatch() {
           ) : (
             <Row gutter={[32, 24]}>
               {currentItems.map(({ _id: id, watchName, image, price }) => (
-                <Col span={currentItems.length <= 3 ? 12 : 8} key={id}>
+                <Col span={currentItems.length < 3 ? 12 : 8} key={id}>
                   <Card
                     hoverable
                     style={{

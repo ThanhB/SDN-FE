@@ -16,6 +16,8 @@ function UserProfile() {
   const { id } = useParams();
   const { userDetail, fetchUserDetail, updateUser } = useUser();
   const [isEditing, setIsEditing] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [form] = Form.useForm();
 
   useEffect(() => {
     if (id) {
@@ -25,27 +27,49 @@ function UserProfile() {
     }
   }, [id]);
 
-  console.log("check user", userDetail);
+  useEffect(() => {
+    if (userDetail) {
+      form.setFieldsValue(userDetail);
+    }
+  }, [userDetail]);
+
+  useEffect(() => {
+    if (!isEditing) {
+      form.setFieldsValue({ password: '', confirm: '' });
+    }
+  }, [isEditing]);
   
+  console.log("check user", userDetail);
+
   const handleEdit = () => {
     setIsEditing(true);
   };
-  const handleUpdate = async (values) => {
-    try {
-      const res = await updateUser(id, values);
-      if (res && res.status === 200) {
-        notification.success({
-          message: "Success",
-          description: "Update user successfully!",
-        });
+
+  const handleCancel = () => {
+    setIsEditing(false);
+  };
+
+  const handleUpdate = async () => {
+    setLoading(true);
+    const values = form.getFieldsValue();
+    const changes = {};
+  
+    for (const key in values) {
+      if (values[key] !== userDetail[key]) {
+        changes[key] = values[key];
       }
-      setIsEditing(false);
-    } catch (error) {
-      notification.error({
-        message: "Error",
-        description: "Something went wrong!",
-      });
     }
+  
+    if (Object.keys(changes).length > 0) {
+      try {
+        await updateUser(id, changes);
+        setIsEditing(false); // set isEditing to false after successful update
+      } catch (error) {
+        // handle error here
+        console.error(error);
+      }
+    }
+    setLoading(false);
   };
 
   return (
@@ -58,7 +82,7 @@ function UserProfile() {
           />
         </Col>
         <Col span={12}>
-          <Form initialValues={userDetail}>
+          <Form form={form} initialValues={userDetail} layout="vertical">
             <Form.Item label="Member Name" name="membername">
               <Input disabled={!isEditing} />
             </Form.Item>
@@ -68,14 +92,20 @@ function UserProfile() {
             <Form.Item label="Birth Year" name="YOB">
               <Input disabled={!isEditing} />
             </Form.Item>
-            <Form.Item label="Password" name="password">
-              <Input.Password disabled={!isEditing} />
-            </Form.Item>
             <Form.Item>
               {isEditing ? (
-                <Button type="primary" onClick={handleUpdate}>
-                  Submit
-                </Button>
+                <div className="space-x-6">
+                  <Button
+                    type="primary"
+                    oading={loading}
+                    onClick={handleUpdate}
+                  >
+                    Submit
+                  </Button>
+                  <Button type="primary" onClick={handleCancel}>
+                    Close
+                  </Button>
+                </div>
               ) : (
                 <Button type="primary" onClick={handleEdit}>
                   Edit

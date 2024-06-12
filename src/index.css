@@ -9,6 +9,24 @@
 }
 
 
+@layer utilities {
+  .scrollbar,
+  #myTable {
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 8px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #d3d3d3;
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb:active {
+      background-color: #c7c7c7;
+    }
+  }
+}
 .sider {
   position: fixed !important;
 }
@@ -61,4 +79,20 @@
 
 .header {
   transition: height 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+}
+
+
+.pagination {
+  position: sticky;
+  bottom: 0;
+}
+
+
+.ant-table-wrapper .ant-table-pagination-right {
+  justify-content: center;
+}
+
+.ant-table-thead .ant-table-cell {
+  background-color: #f5f5f5 !important;
+  color: black !important;
 }

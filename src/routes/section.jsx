@@ -13,6 +13,9 @@ export const WatchDetail = lazy(() => import("../page/watchDetailPage.jsx"));
 export const SearchPage = lazy(() => import("../page/SearchPage.jsx"));
 export const DashboardPage = lazy(() => import("../page/DashboardPage.jsx"));
 export const UserProfile = lazy(() => import("../page/UserProfile.jsx"));
+export const User = lazy(() => import("../page/admin/Userview.jsx"));
+
+
 const checkAccess = (isAdmin) => {
   return isAdmin === true;
 };
@@ -84,6 +87,7 @@ export const Router = () => {
           path: "/admin/dashboard",
           element: <DashboardPage />,
         },
+        {path: "/admin/member/view", element: <User />},
         { element: <Error404 />, path: "*" },
       ],
     },
