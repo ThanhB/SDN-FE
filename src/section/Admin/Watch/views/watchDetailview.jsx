@@ -1,11 +1,12 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
-import WatchDetail from "../watchDetail.jsx";
+import WatchDetailEdit from "../watchDetail.jsx";
 
-function WatchDetailView() {
+function WatchDetai() {
   return (
     <div>
-      <WatchDetail />
+      <WatchDetailEdit />
     </div>
   );
 }
-export default WatchDetailView;
+export default WatchDetai;

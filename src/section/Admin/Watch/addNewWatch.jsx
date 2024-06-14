@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Button, Modal, Form, Select, Input, InputNumber } from "antd";
+import { Button, Modal, Form, Select, Input, InputNumber, message } from "antd";
 import useWatch from "../../../hooks/useWatch";
 import useBrand from "../../../hooks/useBrand";
-function AddNewWatch({setShouldRefetch}) {
+function AddNewWatch({ setShouldRefetch }) {
   const { fetchCreateWatch } = useWatch();
   const { brandList, fetchBrandList } = useBrand();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,12 +22,15 @@ function AddNewWatch({setShouldRefetch}) {
 
   const handleCreate = async (values) => {
     try {
-      await fetchCreateWatch(values);
-      console.log("values", values);
+     const res = await fetchCreateWatch(values);
+     if(res && res.status === 200){
       setIsModalOpen(false);
       setShouldRefetch(true); // trigger refetch
+      form.resetFields();
+     }
     } catch (error) {
       console.log("error", error);
+      throw error;
     }
   };
 
@@ -95,7 +98,24 @@ function AddNewWatch({setShouldRefetch}) {
               name="price"
               rules={[{ required: true, message: "Please input price!" }]}
             >
-              <InputNumber min={0} className="w-[470px]" />
+              <InputNumber
+                className="w-[470px]"
+                rule={[
+                  {
+                    required: true,
+                    message: "Please input price!",
+                  },
+                  {
+                    type: "number",
+                    min: 0,
+                    message: "Price must be greater than 0",
+                  },
+                  {
+                    type: "number",
+                    message: "Price must be a number",
+                  }
+                ]}
+              />
             </Form.Item>
             <Form.Item
               label="Description"

@@ -1,5 +1,5 @@
 import { Helmet } from "react-helmet";
-import WatchDetailView from "../../section/Admin/Watch/views";
+import WatchDetailView from "../../section/Admin/Watch/watchDetail.jsx";
 
 function WatchDetail() {
     return (

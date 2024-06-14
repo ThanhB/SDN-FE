@@ -117,12 +117,12 @@ function WatchCard() {
           </div>
         ) : (
           <>
-            <div className="grid grid-cols-5 gap-y-4 gap-x-1">
+            <div className="grid grid-cols-5 gap-y-4">
               {currentItems.map(({ _id: id, watchName, image, price }) => (
                 <div key={id} className="col-span-1">
                   <Card
                     hoverable
-                    style={{ width: 240, height: 350 }}
+                    style={{ width: 260, height: 340 }}
                     cover={
                       <Link to={`/watch/${id}`}>
                         <div

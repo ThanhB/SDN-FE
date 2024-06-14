@@ -1,6 +1,6 @@
 import useAuth from "../hooks/useAuthen.js";
 import { useEffect } from "react";
-import { Error404, Loading, ScrollToTop, Unauthorized } from "../component";
+import { Error404, Loading, ScrollToTop, Unauthorized , AdminError} from "../component";
 import { Suspense, lazy } from "react";
 import { Navigate, Outlet, useRoutes, useNavigate } from "react-router-dom";
 import DashboardLayout from "../layout/index.jsx";
@@ -15,7 +15,10 @@ export const DashboardPage = lazy(() => import("../page/DashboardPage.jsx"));
 export const UserProfile = lazy(() => import("../page/UserProfile.jsx"));
 export const User = lazy(() => import("../page/admin/Userview.jsx"));
 export const Watch = lazy(() => import("../page/admin/watchView.jsx"));
-export const WatchDetailEdit = lazy(() => import("../section/Admin/Watch/watchDetail.jsx"));
+export const WatchDetailEdit = lazy(() => import("../page/admin/watchDetail.jsx"));
+export const BrandView = lazy(() => import("../page/admin/brandView.jsx"));
+export const BrandDetailPage = lazy(() => import("../page/admin/brandDetail.jsx"));
+
 const checkAccess = (isAdmin) => {
   return isAdmin === true;
 };
@@ -91,7 +94,9 @@ export const Router = () => {
         {path: "/admin/member/view", element: <User />},
         {path: "/admin/watch/view", element: <Watch/>},
         {path: "/admin/watch/view/:id", element: <WatchDetailEdit/>},
-        { element: <Error404 />, path: "*" },
+        {path: "/admin/brand/view", element: <BrandView/>},
+        {path: "/admin/brand/view/:id", element: <BrandDetailPage/>},
+        { element: <AdminError />, path: "*" },
       ],
     },
   ]);

@@ -83,6 +83,15 @@ function WatchTable() {
     setIsModalOpenDelete(true);
   };
 
+  const formatPrice = (price) => {
+    const decimalPart = price - Math.floor(price);
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: decimalPart > 0 ? 2 : 0,
+    }).format(price);
+  };
+
   const columns = [
     {
       title: "ID",
@@ -103,7 +112,8 @@ function WatchTable() {
     {
       title: "Price",
       dataIndex: "price",
-      width: "10%",
+      width: "6%",
+      render: (text, record) => formatPrice(record.price),
     },
     {
       title: "Description",
@@ -125,7 +135,7 @@ function WatchTable() {
     {
       title: "Brand",
       dataIndex: "brand",
-      width: "15%",
+      width: "8%",
       render: (brand) => {
         const brandItem = brandList.find(({ _id }) => _id === brand);
         return brandItem ? brandItem.brandName : "N/A";
@@ -140,7 +150,7 @@ function WatchTable() {
         </>
       ),
       dataIndex: watchList._id,
-      width: "5%",
+      width: "10%",
       render: (record) => (
         <Dropdown
           overlay={menu(record)}
@@ -153,6 +163,7 @@ function WatchTable() {
       ),
     },
   ];
+
   const handleTableChange = (pagination) => {
     setTableParams({
       pagination,

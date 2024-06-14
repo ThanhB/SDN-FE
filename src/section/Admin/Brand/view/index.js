@@ -1,0 +1,1 @@
+export {default as BrandTableView} from './brandview.jsx';

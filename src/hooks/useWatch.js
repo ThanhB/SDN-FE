@@ -87,6 +87,7 @@ const useWatch = create((set) => ({
           duration: 1,
         });
       }
+      return response;
     } catch (error) {
       notification.error({
         message: "Error",
