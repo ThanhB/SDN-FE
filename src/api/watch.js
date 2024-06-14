@@ -16,11 +16,15 @@ const getWatchByBrand = (id) => {
 }
 
 const updateWatch = (id, data) => {
-    return axiosClient.put(`/api/watch/${id}`, data);
+    return axiosClient.put(`/api/update-watch/${id}`, data);
 }
 
 const deleteWatch = (id) => {
-    return axiosClient.delete(`/api/watch/${id}`);
+    return axiosClient.delete(`/api/delete-watch/${id}`);
 }
 
-export { getWatchList, getwatchDetail, getWatchByBrand, getWatchByName, updateWatch, deleteWatch}
+const createWatch = (data) => {
+    return axiosClient.post(`/api/create-watch`, data);
+}
+
+export { getWatchList, getwatchDetail, getWatchByBrand, getWatchByName, updateWatch, deleteWatch, createWatch}

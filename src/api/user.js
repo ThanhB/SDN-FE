@@ -12,4 +12,9 @@ const editUser = (id, data) => {
     return axiosClient.put(`/api/accounts/${id}`,data);
 }
 
-export {getUserList ,editUser, getUserDetail}
+const changePassword = (id, data) => {
+    return axiosClient.put(`/api/accounts/change-password/${id}`,data);
+
+}
+
+export {getUserList ,editUser, getUserDetail, changePassword}

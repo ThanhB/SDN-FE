@@ -84,13 +84,13 @@ function UserProfile() {
         <Col span={12}>
           <Form form={form} initialValues={userDetail} layout="vertical">
             <Form.Item label="Member Name" name="membername">
-              <Input disabled={!isEditing} />
+              <Input readOnly={!isEditing} />
             </Form.Item>
             <Form.Item label="Name" name="name">
-              <Input disabled={!isEditing} />
+              <Input readOnly={!isEditing} />
             </Form.Item>
             <Form.Item label="Birth Year" name="YOB">
-              <Input disabled={!isEditing} />
+              <Input readOnly={!isEditing} />
             </Form.Item>
             <Form.Item>
               {isEditing ? (

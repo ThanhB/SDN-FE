@@ -45,9 +45,10 @@ const useUser = create((set) => ({
         set({ userDetail: response.data.data || {} });
       }
     } catch (error) {
+      console.log("error", error);
       notification.error({
         message: "Error",
-        description: "Something went wrong!",
+        description: error.response.data.message,
         duration: 1,
       });
     }

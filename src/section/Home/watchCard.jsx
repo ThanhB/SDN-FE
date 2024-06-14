@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useWatch from "../../hooks/useWatch";
 import useBrand from "../../hooks/useBrand";
-import { Card, Row, Col, Button, Dropdown, Menu, Space, Input } from "antd";
+import { Card, Row, Col, Button, Dropdown, Menu, Space, Checkbox } from "antd";
 import { Pagination } from "antd";
 import { Link } from "react-router-dom";
 import { DownOutlined, SearchOutlined } from "@ant-design/icons";
@@ -13,7 +13,7 @@ function WatchCard() {
   const { brandList, fetchBrandList } = useBrand();
   const [currentPage, setCurrentPage] = useState(1);
   const [filteredWatchList, setFilteredWatchList] = useState([]);
-
+  const [checkedBrands, setCheckedBrands] = useState(new Set()); //
   useEffect(() => {
     fetchWatchList();
   }, []);
@@ -24,16 +24,34 @@ function WatchCard() {
 
   useEffect(() => {
     setFilteredWatchList(watchList);
+    setCurrentPage(1);
   }, [watchList]);
 
-  const handleFilter = async (brandid) => {
-    const filtered = watchList.filter((watch) => {
-      return watch.brand === brandid;
-    });
-    setFilteredWatchList(filtered);
+  // Filter watches by brand
+  const handleFilter = async (brandid, e) => {
+    const newCheckedBrands = new Set(checkedBrands);
+    if (e.target.checked) {
+      newCheckedBrands.add(brandid);
+    } else {
+      newCheckedBrands.delete(brandid);
+    }
+    setCheckedBrands(newCheckedBrands);
   };
 
-  const itemsPerPage = 5;
+  // Filter watches by brand
+  useEffect(() => {
+    if (checkedBrands.size > 0) {
+      const filtered = watchList.filter((watch) => {
+        return checkedBrands.has(watch.brand);
+      });
+      setFilteredWatchList(filtered);
+      setCurrentPage(1); // reset to first page whenever filtered list changes
+    } else {
+      setFilteredWatchList(watchList);
+    }
+  }, [watchList, checkedBrands]);
+
+  const itemsPerPage = 10;
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredWatchList.slice(
@@ -47,8 +65,10 @@ function WatchCard() {
   const menu = (
     <Menu>
       {brandList.map(({ _id: brandid, brandName }) => (
-        <Menu.Item key={brandid} onClick={() => handleFilter(brandid)}>
-          <label htmlFor={brandid}>{brandName}</label>
+        <Menu.Item key={brandid}>
+          <Checkbox onChange={(e) => handleFilter(brandid, e)}>
+            {brandName}
+          </Checkbox>
         </Menu.Item>
       ))}
     </Menu>
@@ -56,18 +76,18 @@ function WatchCard() {
 
   const formatPrice = (price) => {
     const decimalPart = price - Math.floor(price);
-    return new Intl.NumberFormat('en-US', { 
-      style: 'currency', 
-      currency: 'USD', 
-      minimumFractionDigits: decimalPart > 0 ? 2 : 0 
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: decimalPart > 0 ? 2 : 0,
     }).format(price);
-  }
+  };
 
   return (
     <div>
       <div
         class="filter-bar"
-        className="bg-white py-4 justify-center items-center shadow-lg h-16 w-[96%] rounded-md"
+        className="bg-white py-4 justify-center items-center shadow-lg h-16 w-[98%] rounded-md"
       >
         <div className="float-left font-[14px] mt-1 ml-4 ">
           Total watches showing:
@@ -97,27 +117,44 @@ function WatchCard() {
           </div>
         ) : (
           <>
-            <Row gutter={[240, 16]}>
+            <div className="grid grid-cols-5 gap-y-4 gap-x-1">
               {currentItems.map(({ _id: id, watchName, image, price }) => (
-                <Col span={4} key={id}>
-                  <Link to={`/watch/${id}`}>
-                    <Card
-                      hoverable
-                      style={{ width: 240, height: 350 }}
-                      cover={
-                        <img
-                          alt={watchName}
-                          src={image}
-                          style={{ height: "200px", objectFit: "cover" }}
-                        />
-                      }
-                    >
-                      <Meta title={watchName} description={<div className="font-bold text-red-500">{formatPrice(price)}</div>} />
-                    </Card>
-                  </Link>
-                </Col>
+                <div key={id} className="col-span-1">
+                  <Card
+                    hoverable
+                    style={{ width: 240, height: 350 }}
+                    cover={
+                      <Link to={`/watch/${id}`}>
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                          }}
+                        >
+                          <img
+                            alt={watchName}
+                            src={image}
+                            style={{ objectFit: "cover" ,  height: "200px",}}
+                          />
+                        </div>
+                      </Link>
+                    }
+                  >
+                    <Link to={`/watch/${id}`}>
+                      <Meta
+                        title={watchName}
+                        description={
+                          <div className="font-bold text-red-500">
+                            {formatPrice(price)}
+                          </div>
+                        }
+                      />
+                    </Link>
+                  </Card>
+                </div>
               ))}
-            </Row>
+            </div>
             <div
               style={{
                 display: "flex",
@@ -128,7 +165,7 @@ function WatchCard() {
               <Pagination
                 current={currentPage}
                 onChange={handleChange}
-                total={watchList.length}
+                total={filteredWatchList.length}
                 pageSize={itemsPerPage}
                 showSizeChanger={false}
               />

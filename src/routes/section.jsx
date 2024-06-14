@@ -14,8 +14,8 @@ export const SearchPage = lazy(() => import("../page/SearchPage.jsx"));
 export const DashboardPage = lazy(() => import("../page/DashboardPage.jsx"));
 export const UserProfile = lazy(() => import("../page/UserProfile.jsx"));
 export const User = lazy(() => import("../page/admin/Userview.jsx"));
-
-
+export const Watch = lazy(() => import("../page/admin/watchView.jsx"));
+export const WatchDetailEdit = lazy(() => import("../section/Admin/Watch/watchDetail.jsx"));
 const checkAccess = (isAdmin) => {
   return isAdmin === true;
 };
@@ -23,6 +23,7 @@ const checkAccess = (isAdmin) => {
 export const Router = () => {
   const { isAuthenticated, infoUser } = useAuth();
   const hasAccess = checkAccess(infoUser?.isAdmin);
+  
 
   const routes = useRoutes([
     {
@@ -88,6 +89,8 @@ export const Router = () => {
           element: <DashboardPage />,
         },
         {path: "/admin/member/view", element: <User />},
+        {path: "/admin/watch/view", element: <Watch/>},
+        {path: "/admin/watch/view/:id", element: <WatchDetailEdit/>},
         { element: <Error404 />, path: "*" },
       ],
     },

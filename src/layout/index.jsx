@@ -48,6 +48,10 @@ const DashboardLayout = ({ children }) => {
       key: "1",
     },
     {
+      label: <a href={`/accounts/password/${infoUser._id}`}>Đổi mật khẩu</a>,
+      key: "2",
+    },
+    {
       label: (
         <p
           className="text-blue-500 font-bold hover:underline cursor-pointer"
@@ -56,7 +60,7 @@ const DashboardLayout = ({ children }) => {
           Đăng Xuất
         </p>
       ),
-      key: "2",
+      key: "3",
     },
   ].filter(Boolean)
    } ;
@@ -64,7 +68,7 @@ const DashboardLayout = ({ children }) => {
   return (
     <Layout className="min-h-screen bg-[#fff] justify-evenly flex">
       <Header className="bg-[#ebecf0] flex justify-between items-center h-[80px] shadow-md ">
-        <div className="flex space-x-12 items-center px-64 ">
+        <div className="flex space-x-12 items-center pl-52 pr-64 ">
           <div className="flex flex-row items-center">
             <img src={logo} className="w-[110px] h-[60px] ml-6 bg-[#f1f3f4]" />
           </div>

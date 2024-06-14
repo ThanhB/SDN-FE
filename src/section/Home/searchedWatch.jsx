@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Pagination } from "antd";
-import { Card, Row, Col, Layout } from "antd";
+import { Card } from "antd";
 import useWatch from "../../hooks/useWatch";
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -43,9 +43,9 @@ function SearchWatch() {
               <ErrorWatch className="flex justify-center mx-56" />
             </div>
           ) : (
-            <Row gutter={[32, 24]}>
+            <div className="grid grid-cols-4 gap-4">
               {currentItems.map(({ _id: id, watchName, image, price }) => (
-                <Col span={currentItems.length < 3 ? 12 : 8} key={id}>
+                <div key={id} className="col-span-1">
                   <Card
                     hoverable
                     style={{
@@ -86,9 +86,9 @@ function SearchWatch() {
                       />
                     </Link>
                   </Card>
-                </Col>
+                </div>
               ))}
-            </Row>
+            </div>
           )}
         </div>
       </div>

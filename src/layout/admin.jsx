@@ -106,6 +106,10 @@ const AdminLayout = ({ children }) => {
         key: "1",
       },
       {
+        label: <a href={`/accounts/password/${infoUser._id}`}>Đổi mật khẩu</a>,
+        key: "2",
+      },
+      {
         label: (
           <p
             className="text-blue-500 font-bold hover:underline cursor-pointer"
@@ -114,7 +118,7 @@ const AdminLayout = ({ children }) => {
             Đăng Xuất
           </p>
         ),
-        key: "2",
+        key: "3",
       },
     ];
   };
@@ -175,7 +179,7 @@ const AdminLayout = ({ children }) => {
             </Dropdown>
           </div>
         </Header>
-        <Content className="mt-[80px] ml-[240px] ">
+        <Content className={`mt-[80px] ${collapsed ? 'ml-[10px]' : 'ml-[240px]'}`}>
           <div className="rounded-sm overflow-x-auto min-w-[250px] bg-[#fff]">
             {children}
           </div>
