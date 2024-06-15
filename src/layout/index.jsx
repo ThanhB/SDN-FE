@@ -48,7 +48,7 @@ const DashboardLayout = ({ children }) => {
       key: "1",
     },
     {
-      label: <a href={`/accounts/password/${infoUser._id}`}>Đổi mật khẩu</a>,
+      label: <a href={`/user/change-password/${infoUser._id}`}>Đổi mật khẩu</a>,
       key: "2",
     },
     {

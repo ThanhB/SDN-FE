@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
 import useUser from "../../hooks/useUser";
-import { useParams } from "react-router-dom";
-import {
-  Button,
-  Col,
-  Form,
-  Image,
-  Input,
-  InputNumber,
-  Row,
-  notification,
-} from "antd";
+import { Link, useParams } from "react-router-dom";
+import { Button, Col, Form, Image, Input, Row } from "antd";
 
 function UserProfile() {
   const { id } = useParams();
@@ -35,10 +26,10 @@ function UserProfile() {
 
   useEffect(() => {
     if (!isEditing) {
-      form.setFieldsValue({ password: '', confirm: '' });
+      form.setFieldsValue({ password: "", confirm: "" });
     }
   }, [isEditing]);
-  
+
   console.log("check user", userDetail);
 
   const handleEdit = () => {
@@ -53,13 +44,13 @@ function UserProfile() {
     setLoading(true);
     const values = form.getFieldsValue();
     const changes = {};
-  
+
     for (const key in values) {
       if (values[key] !== userDetail[key]) {
         changes[key] = values[key];
       }
     }
-  
+
     if (Object.keys(changes).length > 0) {
       try {
         await updateUser(id, changes);
@@ -107,9 +98,17 @@ function UserProfile() {
                   </Button>
                 </div>
               ) : (
-                <Button type="primary" onClick={handleEdit}>
-                  Edit
-                </Button>
+                <div className="flex flex-row space-x-4">
+                  <Button type="primary" onClick={handleEdit}>
+                    Edit
+                  </Button>
+
+                  <Button type="primary">
+                    <Link to={`/user/change-password/${id}`}>
+                      Change Password
+                    </Link>
+                  </Button>
+                </div>
               )}
             </Form.Item>
           </Form>

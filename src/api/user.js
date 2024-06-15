@@ -13,7 +13,7 @@ const editUser = (id, data) => {
 }
 
 const changePassword = (id, data) => {
-    return axiosClient.put(`/api/accounts/change-password/${id}`,data);
+    return axiosClient.put(`/api/accounts/password/${id}`,data);
 
 }
 

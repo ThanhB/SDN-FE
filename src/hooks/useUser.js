@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { editUser, getUserDetail, getUserList } from "../api/user";
+import { editUser, getUserDetail, getUserList, changePassword } from "../api/user";
 import { notification } from "antd";
 
 const useUser = create((set) => ({
@@ -53,6 +53,29 @@ const useUser = create((set) => ({
       });
     }
   },
+
+  fetchChangePassword: async (id, value) => {
+    try {
+      const response = await changePassword(id, value);
+      if (response && response.status === 200) {
+        notification.success({
+          message: "Success",
+          description: response.data.message,
+          duration: 1,
+        });
+      }
+      return response;
+    } catch (error) {
+      console.log("error", error);
+      notification.error({
+        message: "Error",
+        description: error.response.data.message,
+        duration: 1,
+      });
+      throw error;
+    }
+  },
+
 }));
 
 export default useUser;

@@ -56,13 +56,14 @@ function WatchTable() {
         <Link
           to={`/admin/watch/view/${record._id}`}
           onClick={() => handleMenuClick("edit", record._id)}
+          style = {{color: "#3b82f6"}}
         >
           <EditOutlined />
           &nbsp;Edit Watch
         </Link>
       </Menu.Item>
-      <Menu.Item key="delete">
-        <a onClick={() => handleMenuClick("delete", record._id)}>
+      <Menu.Item key="delete" >
+        <a onClick={() => handleMenuClick("delete", record._id)} style={{ color: 'red' }}>
           <DeleteOutlined />
           &nbsp;Delete Watch
         </a>

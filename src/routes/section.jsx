@@ -18,7 +18,7 @@ export const Watch = lazy(() => import("../page/admin/watchView.jsx"));
 export const WatchDetailEdit = lazy(() => import("../page/admin/watchDetail.jsx"));
 export const BrandView = lazy(() => import("../page/admin/brandView.jsx"));
 export const BrandDetailPage = lazy(() => import("../page/admin/brandDetail.jsx"));
-
+export const ChangePasswordPage = lazy(() => import("../page/ChangePasswordPage.jsx"));
 const checkAccess = (isAdmin) => {
   return isAdmin === true;
 };
@@ -61,6 +61,10 @@ export const Router = () => {
         {
           path: "/watch/search/:searchValue",
           element: <SearchPage />,
+        },
+        {
+          path:"/user/change-password/:id",
+          element: <ChangePasswordPage/>
         },
         { element: <Error404 />, path: "*" },
       ],

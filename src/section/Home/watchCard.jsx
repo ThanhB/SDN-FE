@@ -87,7 +87,7 @@ function WatchCard() {
     <div>
       <div
         class="filter-bar"
-        className="bg-white py-4 justify-center items-center shadow-lg h-16 w-[98%] rounded-md"
+        className="bg-white py-4 justify-center items-center shadow-lg h-16 w-[99%] rounded-md"
       >
         <div className="float-left font-[14px] mt-1 ml-4 ">
           Total watches showing:
