@@ -1,64 +1,118 @@
 import React, { useState } from "react";
-import PropTypes from "prop-types";
-import { Button, Modal, Input } from "antd";
+import { Button, Modal, Input, Form } from "antd";
 import { Rate } from "antd";
+import { useParams } from "react-router-dom";
+import useComment from "../../hooks/useComment";
 const { TextArea } = Input;
-function FeedBackModal(id) {
+
+function FeedBackModal() {
+  const { id } = useParams();
+  const { fetchCreateComment } = useComment();
   const [open, setOpen] = useState(false);
+  const [form] = Form.useForm();
   const [confirmLoading, setConfirmLoading] = useState(false);
+  const [ratingValue, setRatingValue] = useState(0); // Added this line
+  const [textAreaValue, setTextAreaValue] = useState(""); // Added this line
+  const [refreshComments, setRefreshComments] = useState(false);
+
   const showModal = () => {
     setOpen(true);
   };
-  const onChange = (e) => {
-    console.log("Change:", e.target.value);
+
+  const handleRatingChange = (value) => {
+    setRatingValue(value); // Update Rating value when it changes
   };
-  const handleOk = () => {
-    setConfirmLoading(true);
-    setTimeout(() => {
-      setOpen(false);
-      setConfirmLoading(false);
-    }, 2000);
+
+  const handleSave = async () => {
+    try {
+      const response = await fetchCreateComment({
+        id,
+        value: { text: textAreaValue, rating: ratingValue },
+      });
+      console.log("response", response)
+      if (response && response.status === 200) {
+        setOpen(false);
+        setConfirmLoading(false);
+        form.resetFields();
+        setRatingValue(0); // Reset rating value
+        setTextAreaValue(""); // Reset text area value
+        setRefreshComments(!refreshComments); // Trigger a refresh
+      }
+    } catch (error) {
+      console.log("error", error);
+    }
   };
+
   const handleCancel = () => {
-    console.log("Clicked cancel button");
     setOpen(false);
+    form.resetFields();
+    setRatingValue(0); // Reset rating value
+    setTextAreaValue(""); // Reset text area value
   };
+
   return (
     <div>
-      <Button className="bg-blue-500 text-white" onClick={showModal}>
+      <Button
+        className="bg-blue-500 text-white"
+        onClick={showModal}
+        form="createCommentForm"
+      >
         FeedBack
       </Button>
       <Modal
         title="Feed Back"
         open={open}
-        onOk={handleOk}
+        closable={false}
+        centered
         confirmLoading={confirmLoading}
-        onCancel={handleCancel}
+        footer={[
+          <div className="space-x-4">
+            <Button key="back" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button
+              key="submit"
+              type="primary"
+              loading={confirmLoading}
+              onClick={() => form.submit()}
+            >
+              Save
+            </Button>
+          </div>,
+        ]}
       >
-        <div className="p-4 space-y-4">
-          <p>
-            Đánh giá của bạn
-          </p>
-          <Rate allowHalf count={3} defaultValue={0} />
-          <p>
-            <TextArea
-              showCount
-              maxLength={500}
-              onChange={onChange}
-              placeholder="Chia sẻ về cảm nhận sản phẩm của bạn..."
-              style={{
-                height: 120,
-                resize: "none",
-              }}
-            />
-          </p>
-        </div>
+        <Form
+          layout="vertical"
+          id="createCommentForm"
+          onFinish={(values) => handleSave(values)}
+          form={form}
+          initialValues={{ rating: ratingValue, comment: textAreaValue }} // Set initial values
+        >
+          <Form.Item name="rating">
+            <div className="space-y-4">
+              <p>Đánh giá :</p>
+              <Rate
+                onChange={handleRatingChange}
+                allowClear
+                allowHalf
+                count={3}
+              />
+            </div>
+          </Form.Item>
+          <Form.Item name="comment">
+            <div className="space-y-4">
+              <p>Nhận xét :</p>
+              <TextArea
+                rows={4}
+                placeholder="Hãy để lại ý kiến của bạn về sản phẩm này"
+                onChange={(e) => setTextAreaValue(e.target.value)}
+              />
+            </div>
+          </Form.Item>
+        </Form>
       </Modal>
     </div>
   );
 }
 
-FeedBackModal.propTypes = {
-  id: PropTypes.string,
-};
 export default FeedBackModal;

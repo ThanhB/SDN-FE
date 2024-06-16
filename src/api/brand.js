@@ -13,7 +13,6 @@ const createBrand = (data) => {
 };
 
 const updateBrand = (id, data) => {
-  console.log("check if working", id, data);
   return axiosClient.put(`/api/update-brand/${id}`, data);
 };
 

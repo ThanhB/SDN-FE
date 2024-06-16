@@ -7,6 +7,7 @@ import {
   createWatch,
   updateWatch,
   deleteWatch,
+  getCommentListByWatch,
 } from "../api/watch";
 import { notification } from "antd";
 
@@ -78,7 +79,6 @@ const useWatch = create((set) => ({
   fetchCreateWatch: async (data) => {
     try {
       const response = await createWatch(data);
-      console.log(response)
       if (response && response.status === 200) {
         set({ status: response.status });
         notification.success({
@@ -136,6 +136,20 @@ const useWatch = create((set) => ({
         duration: 1,
       });
       throw error;
+    }
+  },
+
+  commentList: [],
+  fetchCommentListByWatch: async (id) => {
+    try {
+      const response = await getCommentListByWatch(id);
+      console.log("check ressss", response)
+      if (response && response.status === 200) {
+        set({ commentList: response.data.data || [] });
+      }
+      return response;
+    } catch (error) {
+      console.error("Error fetching data:", error);
     }
   },
 }));

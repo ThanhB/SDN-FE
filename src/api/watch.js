@@ -27,4 +27,9 @@ const createWatch = (data) => {
     return axiosClient.post(`/api/create-watch`, data);
 }
 
-export { getWatchList, getwatchDetail, getWatchByBrand, getWatchByName, updateWatch, deleteWatch, createWatch}
+const getCommentListByWatch = (id) => {
+    return axiosClient.get(`/api/watch/comment/${id}`);
+}
+
+
+export { getWatchList, getwatchDetail, getWatchByBrand, getWatchByName, updateWatch, deleteWatch, createWatch, getCommentListByWatch}
