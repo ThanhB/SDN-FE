@@ -106,7 +106,6 @@ function WatchDetail() {
                 <Rate
                   onChange={handleRatingChange}
                   allowClear
-                  allowHalf
                   count={3}
                 />
               </div>
