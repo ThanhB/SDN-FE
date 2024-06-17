@@ -31,8 +31,8 @@ function CommentList({refreshComments}) {
             className="flex justify-between border-b border-black mb-4 p-4"
           >
             <div className="space-y-4">
-              <p className="font-bold">{item.author}</p>
-              <Rate value={item.rating} disabled count={3} allowHalf />
+              <p className="font-bold text-lg">{item.author}</p>
+              <Rate value={item.rating} disabled count={3}  />
               <p>{item.content}</p>
             </div>
           </div>
